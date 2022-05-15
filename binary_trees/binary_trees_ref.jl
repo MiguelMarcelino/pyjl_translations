@@ -7,8 +7,8 @@
 using BenchmarkTools
 
 struct Node
-    l::Union{Node,Nothing}
-    r::Union{Node,Nothing}
+    l::Union{Node, Nothing}
+    r::Union{Node, Nothing}
 end
 
 mutable struct Latch
@@ -77,6 +77,4 @@ function binary_trees(io, n::Int)
     write(io, "long lived tree of depth $n\t check: $(check(long_tree))\n")
 end#function
 
-isinteractive() || binary_trees(stdout, parse(Int, ARGS[1])) 
-
-
+isinteractive() || binary_trees(stdout, parse(Int, ARGS[1]))
