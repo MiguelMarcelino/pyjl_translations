@@ -4,7 +4,7 @@ function var_find(f)::Int64
     return length(collect(eachmatch(Regex(f), seq)))
 end
 
-function main_func()
+function main()
     global seq
     seq = read(stdin, String)
     ilen = length(seq)
@@ -22,7 +22,7 @@ function main_func()
         "agggtaa[cgt]|[acg]ttaccct",
     )
     for f in zip(variants, map(var_find, variants))
-        println("$(f[1]) $(f[2])")
+        println("$(f[1])$(f[2])")
     end
     subst = OrderedDict(
         "tHa[Nt]" => "<4>",
@@ -40,8 +40,6 @@ function main_func()
     println(length(seq))
 end
 
-function main()
-    main_func()
+if abspath(PROGRAM_FILE) == @__FILE__
+    main()
 end
-
-main()

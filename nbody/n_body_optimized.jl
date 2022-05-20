@@ -116,8 +116,6 @@ function main_func(n, ref = "sun")
     report_energy()
 end
 
-function main()
-    main_func(parse(Int, append!([PROGRAM_FILE], ARGS)[2]))
+if abspath(PROGRAM_FILE) == @__FILE__
+    main(parse(Int, append!([PROGRAM_FILE], ARGS)[2]))
 end
-
-main()
