@@ -7,8 +7,8 @@ function combinations(l)::Vector
             Vector{Float64}, Float64},
         Tuple{Vector{Float64},
             Vector{Float64}, Float64}}} = []
-    for x in (0:length(l)-1-1)
-        ls = l[(x+1+1):end]
+    for x = 0:length(l)-2
+        ls = l[x+2:end]
         for y in ls
             push!(result, (l[x+1], y))
         end
@@ -61,7 +61,7 @@ BODIES = Dict(
 SYSTEM = collect(values(BODIES))
 PAIRS = combinations(SYSTEM)
 function advance(dt, n, bodies = SYSTEM, pairs = PAIRS)
-    for i in (0:n-1)
+    for i = 0:n-1
         for (((x1, y1, z1), v1, m1), ((x2, y2, z2), v2, m2)) in pairs
             dx = x1 - x2
             dy = y1 - y2
@@ -94,7 +94,7 @@ function report_energy(bodies = SYSTEM, pairs = PAIRS, e = 0.0)
     for (r, (vx, vy, vz), m) in bodies
         e += m * ((vx * vx + vy * vy) + vz * vz) / 2.0
     end
-    @printf("%.9f", e)
+    @printf("%.9f\n", e)
 end
 
 function offset_momentum(ref, bodies = SYSTEM, px = 0.0, py = 0.0, pz = 0.0)
@@ -109,7 +109,7 @@ function offset_momentum(ref, bodies = SYSTEM, px = 0.0, py = 0.0, pz = 0.0)
     v[3] = pz / m
 end
 
-function main_func(n, ref = "sun")
+function main(n, ref = "sun")
     offset_momentum(BODIES[ref])
     report_energy()
     advance(0.01, n)
@@ -119,3 +119,4 @@ end
 if abspath(PROGRAM_FILE) == @__FILE__
     main(parse(Int, append!([PROGRAM_FILE], ARGS)[2]))
 end
+
