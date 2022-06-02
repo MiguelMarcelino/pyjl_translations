@@ -1,6 +1,5 @@
 using OffsetArrays
 
-
 function sieve(n::Int64)
     primes = OffsetArray(repeat([true], n), -1)
     primes[0], primes[1] = (false, false)
@@ -11,9 +10,9 @@ function sieve(n::Int64)
             end
         end
     end
-    return [i for i in 0:length(primes)-1 if primes[i]]
+    return collect(filter((j) -> primes[j], 2:n-1))
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    sieve(parse(Int, sys.argv[2]))
+    sieve(parse(Int, append!([PROGRAM_FILE], ARGS)[2]))
 end
