@@ -24,9 +24,8 @@ def check_node(left, right) -> int:
 
 
 def run(depth: int) -> int:
-    """@profile
+    """
     Makes a tree then checks it (parse all nodes and count).
-    This function is global for multiprocessing purposes.
     """
     return check_node(*make_tree(depth))
 
