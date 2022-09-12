@@ -1,0 +1,44 @@
+{% extends "!breadcrumbs.html" %}
+{% block breadcrumbs %}
+
+{%- if current_version %}
+    {%- set gitlab_target = current_version %}
+{%- else %}
+    {%- set gitlab_target = "master" %}
+{%- endif %}
+
+{%- if gitlab_target != "master" %}
+    {%- set pypi_target = "/" ~ gitlab_target|replace("v", "") %}
+{%- else %}
+    {%- set pypi_target = "" %}
+{%- endif %}
+
+<img src="{{ pathto('_static/BL_Logo_VGD_AGI_C_r_rgb.png', 1) }}"
+     style="border: none; max-width: 250px; margin-bottom: 25px; float: right" />
+
+<div class="clearfix"></div>
+
+<p>
+    <a href="https://gitlab.com/geo-bl-ch/python-reprojector/blob/{{ gitlab_target }}/LICENSE">
+        <img alt="license" src="https://img.shields.io/pypi/l/pyreproj.svg" />
+    </a>
+    <a href="https://gitlab.com/geo-bl-ch/python-reprojector/tree/{{ gitlab_target }}">
+        <img alt="build status"
+             src="https://gitlab.com/geo-bl-ch/python-reprojector/badges/{{ gitlab_target }}/build.svg" />
+    </a>
+    <a href="https://gitlab.com/geo-bl-ch/python-reprojector/tree/{{ gitlab_target }}">
+        <img alt="coverage report"
+             src="https://gitlab.com/geo-bl-ch/python-reprojector/badges/{{ gitlab_target }}/coverage.svg" />
+    </a>
+    <a href="https://pypi.python.org/pypi/pyreproj{{ pypi_target }}">
+        <img alt="python version" src="https://img.shields.io/pypi/pyversions/pyreproj.svg" />
+    </a>
+    <a href="https://pypi.python.org/pypi/pyreproj{{ pypi_target }}">
+        <img alt="format" src="https://img.shields.io/pypi/format/pyreproj.svg" />
+    </a>
+    <a href="https://pypi.python.org/pypi/pyreproj{{ pypi_target }}">
+        <img alt="status" src="https://img.shields.io/pypi/status/pyreproj.svg" />
+    </a>
+</p>
+{{ super() }}
+{% endblock %}

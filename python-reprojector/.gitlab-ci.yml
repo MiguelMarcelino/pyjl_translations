@@ -1,0 +1,121 @@
+image: python:3.6
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip-cache"
+  PYPI_USER: SECURE
+  PYPI_PASSWORD: SECURE
+  PYPI_TEST_USER: SECURE
+  PYPI_TEST_PASSWORD: SECURE
+
+cache:
+  key: "$CI_PROJECT_ID"
+  paths:
+  - "$CI_PROJECT_DIR/.apt-cache"
+
+before_script:
+  - mkdir -p "$CI_PROJECT_DIR/.apt-cache"
+  - mkdir -p "$CI_PROJECT_DIR/.pip-cache"
+  - apt-get update -qq
+  - apt-get -o dir::cache::archives="$CI_PROJECT_DIR/.apt-cache" install -y -qq libgeos-dev
+
+stages:
+  - test
+  - doc
+  - deploy
+
+test:2.7:
+  image: python:2.7
+  stage: test
+  script:
+  - make check
+
+test:3.5:
+  image: python:3.5
+  stage: test
+  script:
+  - make check
+
+test:3.6:
+  image: python:3.6
+  stage: test
+  cache:
+    key: "$CI_PIPELINE_ID"
+    paths:
+    - "$CI_PROJECT_DIR/.pip-cache"
+  script:
+  - make check
+
+test:3.7:
+  image: python:3.7
+  stage: test
+  script:
+  - make check
+
+sphinx:
+  stage: doc
+  cache:
+    key: "$CI_PIPELINE_ID"
+    paths:
+    - "$CI_PROJECT_DIR/.pip-cache"
+  script:
+  - make vdoc
+  artifacts:
+    paths:
+    - doc/build/html
+    expire_in: 1 day
+  only:
+  - tags
+  - master
+
+pages:
+  stage: deploy
+  dependencies:
+  - sphinx
+  cache:
+    key: "$CI_PIPELINE_ID"
+    paths:
+    - "$CI_PROJECT_DIR/.pip-cache"
+  script:
+  - mv doc/build/html/ public/
+  artifacts:
+    paths:
+    - public
+    expire_in: 1 day
+  only:
+  - tags
+  - master
+
+deploy:
+  stage: deploy
+  allow_failure: false
+  cache:
+    key: "PIP"
+    paths:
+      - "$CI_PROJECT_DIR/.pip-cache"
+  script:
+    - pip install -r requirements.txt
+    - python setup.py clean check sdist bdist_wheel
+    - twine upload dist/* -u "${PYPI_USER}" -p "${PYPI_PASSWORD}"
+    - twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u "${PYPI_TEST_USER}" -p "${PYPI_TEST_PASSWORD}"
+  only:
+    - /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
+  except:
+    - branches
+
+deploy-test:
+  stage: deploy
+  allow_failure: false
+  cache:
+    key: "PIP"
+    paths:
+      - "$CI_PROJECT_DIR/.pip-cache"
+  script:
+    - pip install -r requirements.txt
+    - python setup.py --test clean check sdist bdist_wheel
+    - twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u "${PYPI_TEST_USER}" -p "${PYPI_TEST_PASSWORD}"
+  only:
+    - master
+  
+# Analyze code quality
+include:
+  - template: Code-Quality.gitlab-ci.yml

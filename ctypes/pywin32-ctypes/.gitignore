@@ -1,0 +1,8 @@
+python*.msi*
+*.pyc
+*.egg-info/
+.tox/
+build/
+dist/
+/docs/build
+/docs/source/api

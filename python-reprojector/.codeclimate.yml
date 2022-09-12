@@ -1,0 +1,8 @@
+exclude_patterns:
+- ".apt-cache/"
+- ".pip-cache/"
+- ".pytest_cache/"
+- "build/"
+- "dist/"
+- "pyreproj.egg-info/"
+- "tests/"
