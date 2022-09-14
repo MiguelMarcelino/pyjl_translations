@@ -29,8 +29,8 @@ function makeCumulative(
     prob = 0.0
     for (char, p) in table
         prob += p
-        P = append!(P, [prob])
-        C = append!(C, [char])
+        push!(P, prob)
+        push!(C, char)
     end
     return (P, C)
 end
