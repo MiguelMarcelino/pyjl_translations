@@ -4,8 +4,8 @@ using HTTP
 using ParameterTests
 using PyCall
 using Test
-requests_mock = pyimport("requests_mock")
 pyproj = pyimport("pyproj")
+requests_mock = pyimport("requests_mock")
 
 
 
