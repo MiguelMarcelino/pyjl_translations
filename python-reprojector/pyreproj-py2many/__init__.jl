@@ -4,9 +4,9 @@ using FromFile: @from
 using HTTP
 using Parameters
 using PyCall
+shapely_ops = pyimport("shapely.ops")
 pyproj = pyimport("pyproj")
 functools = pyimport("functools")
-shapely_ops = pyimport("shapely.ops")
 shapely_geo_base = pyimport("shapely.geometry.base")
 
 
@@ -29,28 +29,15 @@ __version__ = "2.0.0"
         srs_service_url::String = "http://spatialreference.org/ref/epsg/{epsg}/proj4/",
     ) = new(srs_service_url)
 end
+get_transformation_function(; self::AbstractReprojector, from_srs = 4326, to_srs = 4326) =
+    get_transformation_function(self, from_srs, to_srs)
+get_transformation_function(self::AbstractReprojector; from_srs = 4326, to_srs = 4326) =
+    get_transformation_function(self, from_srs, to_srs)
 function get_transformation_function(
     self::AbstractReprojector,
     from_srs = 4326,
     to_srs = 4326,
 )
-    #= 
-            This method creates a transformation function to transform coordinates from one reference system to
-            another one. The projections are set using the two parameters which can match one of the following
-            types each:
-
-            - **int:** The EPSG code as integer
-            - **str:** The proj4 definition string or the EPSG code as string including the "epsg:" prefix.
-            - **pyproj.Proj:** An instance of :class:`pyproj.Proj`, for example as returned by
-              :func:`~pyreproj.Reprojector.get_projection_from_service`.
-
-            :param from_srs: Spatial reference system to transform from. Defaults to 4326.
-            :type from_srs: :obj:`int`, :obj:`str`, :obj:`pyproj.Proj`
-            :param to_srs: Spatial reference system to transform to. Defaults to 4326.
-            :type to_srs: :obj:`int`, :obj:`str`, :obj:`pyproj.Proj`
-            :return: A function accepting two arguments, x and y.
-            :rtype: :func:`functools.partial`
-             =#
     return functools.partial(
         pyproj.transform,
         _get_proj_from_parameter(self, from_srs),

@@ -11,3 +11,7 @@ def test_get_transformation_function():
     p = trf(45.0, 45.0)
     assert isinstance(p, tuple)
     assert len(p) == 2
+
+# Added for testing
+if __name__ == "__main__":
+    test_get_transformation_function()

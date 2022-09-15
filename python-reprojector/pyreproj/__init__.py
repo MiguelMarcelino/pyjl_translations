@@ -24,6 +24,7 @@ class Reprojector(object):
     def __init__(self, srs_service_url: str='http://spatialreference.org/ref/epsg/{epsg}/proj4/'):
         self.srs_service_url = srs_service_url
 
+    @parameterized_func
     def get_transformation_function(self, from_srs=4326, to_srs=4326):
         """
         This method creates a transformation function to transform coordinates from one reference system to
