@@ -4,10 +4,10 @@ using FromFile: @from
 using HTTP
 using Parameters
 using PyCall
-pyproj = pyimport("pyproj")
-functools = pyimport("functools")
-shapely_ops = pyimport("shapely.ops")
 shapely_geo_base = pyimport("shapely.geometry.base")
+shapely_ops = pyimport("shapely.ops")
+functools = pyimport("functools")
+pyproj = pyimport("pyproj")
 
 
 

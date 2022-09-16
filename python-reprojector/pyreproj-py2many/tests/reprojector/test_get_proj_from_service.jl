@@ -4,8 +4,8 @@ using HTTP
 using ParameterTests
 using PyCall
 using Test
-pyproj = pyimport("pyproj")
 requests_mock = pyimport("requests_mock")
+pyproj = pyimport("pyproj")
 
 
 
@@ -25,12 +25,12 @@ requests_mock = pyimport("requests_mock")
         )
         rp = Reprojector()
         if param == "invalid_code"
-            @test_throws HTTP.Exceptions.StatusError begin
+            @test_throws HTTP.Exceptions.StatusError do
                 get_projection_from_service(rp, param)
             end
         else
             proj = get_projection_from_service(rp, param)
-            @test(pybuiltin(:isinstance)(proj, pyproj.Proj))
+            @assert(pybuiltin(:isinstance)(proj, pyproj.Proj))
         end
     end
 end
