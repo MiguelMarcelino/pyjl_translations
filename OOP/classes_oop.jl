@@ -85,7 +85,7 @@ end
     end
 end
 @oodef mutable struct StudentWorker <: {Student, Worker}
-    is_exhausted::Bool
+    schedule_conflicts::Bool
 
     function new(
         name::String,
@@ -93,12 +93,12 @@ end
         domain::String,
         company_name::String,
         hours_per_week::Int64,
-        is_exhausted::Bool,
+        schedule_conflicts::Bool,
     )
         @mk begin
             Student(name, student_number, domain)
             Worker(name, company_name, hours_per_week)
-            is_exhausted = is_exhausted
+            schedule_conflicts = schedule_conflicts
         end
     end
 end
@@ -126,12 +126,12 @@ if abspath(PROGRAM_FILE) == @__FILE__
     @assert(w.get_id() == "John")
     sw = StudentWorker("Timo Marcello", 1111, "school.student.pt", "Cisco", 40, true)
     @assert(sw.company_name == "Cisco")
-    @assert(sw.is_exhausted == true)
+    @assert(sw.schedule_conflicts == true)
     @assert(sw.name == "Timo Marcello")
     @assert(sw.student_number == 1111)
     @assert(sw.domain == "school.student.pt")
     @assert(sw.company_name == "Cisco")
     @assert(sw.hours_per_week == 40)
-    @assert(sw.is_exhausted == true)
+    @assert(sw.schedule_conflicts == true)
     println("OK")
 end

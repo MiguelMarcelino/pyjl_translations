@@ -68,7 +68,7 @@ end
 mutable struct StudentWorker
     student_base::Student
     worker_base::Worker
-    is_exhausted::Bool
+    schedule_conflicts::Bool
 
     StudentWorker(
         name::String,
@@ -76,12 +76,12 @@ mutable struct StudentWorker
         domain::String,
         company_name::String,
         hours_per_week::Int64,
-        is_exhausted::Bool,
+        schedule_conflicts::Bool,
     ) = begin
             student_base = Student(name, student_number, domain)
             worker_base = Worker(name, company_name, hours_per_week)
-            is_exhausted = is_exhausted
-            new(student_base, worker_base, is_exhausted)
+            schedule_conflicts = schedule_conflicts
+            new(student_base, worker_base, schedule_conflicts)
         end
 end
 
@@ -121,11 +121,11 @@ if abspath(PROGRAM_FILE) == @__FILE__
     # Trying multiple dispatch
     sw = StudentWorker("Timo Marcello", 1111, "school.student.pt", "Cisco", 40, true)
     @assert(sw.company_name == "Cisco")
-    @assert(sw.is_exhausted == true)
+    @assert(sw.schedule_conflicts == true)
     @assert(sw.name == "Timo Marcello")
     @assert(sw.student_number == 1111)
     @assert(sw.domain == "school.student.pt")
     @assert(sw.company_name == "Cisco")
     @assert(sw.hours_per_week == 40)
-    @assert(sw.is_exhausted == true)
+    @assert(sw.schedule_conflicts == true)
 end
