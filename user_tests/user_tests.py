@@ -92,25 +92,9 @@ def mandelbrot(limit, c):
     return i + 1
 
 
-###################################################
-# Optional
-
-##############################
-# Generator Functions
-##############################
-# What I expect:
-# - Translation of Python's generators to Julia's channels
-def fib_generators():
-    a = 0
-    b = 1
-    while True:
-        yield a
-        a, b = b, a + b
-
-# As an extra challenge: translate binary trees
-
 if __name__ == "__main__":
     # Fibonacci
+    assert fib(0) == 1
     assert fib(1) == 1
     assert fib(10) == 89
     assert fib(20) == 10946
@@ -124,7 +108,6 @@ if __name__ == "__main__":
     assert binomial_coef(100, 100) == 1
     assert binomial_coef(10, 6) == 210
     assert binomial_coef(20, 6) == 38760
-    assert binomial_coef(4000, 6) == 5667585757783866000
     # Classes
     shape = Shape(1, 3)
     square = Square(2, 4, 5, 5)
@@ -136,13 +119,3 @@ if __name__ == "__main__":
     assert mandelbrot(5, 0.2 + 0.3j) == 6
     assert mandelbrot(6, 0.2 + 0.3j) == 7
     assert mandelbrot(10000, 1 + 0.3j) == 2
-    assert mandelbrot(10000, 0.6 + 0.4j) == 4
-    # Generator Functions
-    fib_arr = []
-    fib_gen = fib_generators()
-    for i in range(0, 6):
-        fib_arr.append(fib_gen.__next__())
-    assert fib_arr == [0, 1, 1, 2, 3, 5]
-
-
-

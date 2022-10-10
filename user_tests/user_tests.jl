@@ -1,7 +1,6 @@
 # Transpiled with flags: 
 # - fix_scope_bounds
 # - loop_scope_warning
-# - optimize_loop_ranges
 module user_tests
 function fib(i::Int)::Int
     if (i == 0 || i == 1)
@@ -91,6 +90,7 @@ function fib_generators()
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
+    @assert(fib(0) == 1)
     @assert(fib(1) == 1)
     @assert(fib(10) == 89)
     @assert(fib(20) == 10946)
@@ -102,7 +102,6 @@ if abspath(PROGRAM_FILE) == @__FILE__
     @assert(binomial_coef(100, 100) == 1)
     @assert(binomial_coef(10, 6) == 210)
     @assert(binomial_coef(20, 6) == 38760)
-    @assert(binomial_coef(4000, 6) == 5667585757783866000)
     shape = Shape(1, 3)
     square = Square(2, 4, 5, 5)
     @assert(position(shape) == (1, 3))
@@ -112,7 +111,6 @@ if abspath(PROGRAM_FILE) == @__FILE__
     @assert(mandelbrot(5, 0.2 + 0.3im) == 6)
     @assert(mandelbrot(6, 0.2 + 0.3im) == 7)
     @assert(mandelbrot(10000, 1 + 0.3im) == 2)
-    @assert(mandelbrot(10000, 0.6 + 0.4im) == 4)
     fib_arr = []
     fib_gen = fib_generators()
     for i = 1:6
