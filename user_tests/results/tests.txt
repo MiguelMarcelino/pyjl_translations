@@ -1,5 +1,5 @@
 1 -> prof
-- Ao tempo do mandelbrot acrescentei 1 minuto, pela correção dos scopes
+- Ao tempo do mandelbrot acrescentei 1 minuto, pela correï¿½ï¿½o dos scopes
 2 -> Joao david
 3 -> Ines caetano
 4 -> Renata

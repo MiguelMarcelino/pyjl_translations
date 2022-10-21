@@ -40,11 +40,11 @@ binomial_coef(n::Int, k::Int) =
         C[n+1][k+1]
     end
 
-@assert binomial_coef(0, 0) == 1
-@assert binomial_coef(1, 1) == 1
-@assert binomial_coef(100, 100) == 1
-@assert binomial_coef(10, 6) == 210
-@assert binomial_coef(20, 6) == 38760
+# @assert binomial_coef(0, 0) == 1
+# @assert binomial_coef(1, 1) == 1
+# @assert binomial_coef(100, 100) == 1
+# @assert binomial_coef(10, 6) == 210
+# @assert binomial_coef(20, 6) == 38760
 
 # teste 3: 3 min
 
@@ -70,9 +70,9 @@ binomial_coef(n::Int, k::Int) =
 
 mandelbrot(limit, c) =
     let z = 0 + 0im
-         for i in 0:limit+1
-             if abs(z) > 2
-                 i
+        for i in 0:limit+1
+            if abs(z) > 2
+                i
             else
                 z = z*z+c
             end
@@ -82,4 +82,5 @@ mandelbrot(limit, c) =
 
 # Test 5: 1 min 42 seg
 
+# println(mandelbrot(5, 0.2 + 0.3im))
 # @assert mandelbrot(5, 0.2 + 0.3im) == 6
